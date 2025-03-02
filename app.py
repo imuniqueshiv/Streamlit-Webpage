@@ -2,7 +2,7 @@ import streamlit as st
 
 from introspection import introspection  # Import introspection data from the separate file
 from poetry_data import poetry_data  # Import poetry data from the separate file
-
+from Heartbreaking_poetry import heartbreak
 # Set page configuration
 st.set_page_config(page_title="MY library", page_icon=":writing_hand:", layout="wide")
 
@@ -12,14 +12,14 @@ st.markdown("""
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@300;400&display=swap');
 
     body {
-        background: linear-gradient(135deg, #f4f1de, #f2cc8f);
-        color: #3d405b;
+        background: linear-gradient(135deg, #1e1e1e, #3d405b);
+        color: #ffffff;
         font-family: 'Roboto', sans-serif;
         scroll-behavior: smooth;
     }
     h1, h2, h3, h4, h5, h6 {
         font-family: 'Playfair Display', serif;
-        color: #3d405b;
+        color: #ffffff;
     }
     .header-section {
         background-image: url('https://images.unsplash.com/photo-1507842217343-583bb7270b66?ixlib=rb-1.2.1&auto=format&fit=crop&w=1953&q=80');
@@ -91,7 +91,7 @@ st.markdown("""
         transform: translateX(10px);
     }
     .poetry-card {
-        background-color: rgba(255, 255, 255, 0.8);
+        background-color: rgba(255, 255, 255, 0.1);
         padding: 20px;
         border-radius: 10px;
         margin-top: 10px;
@@ -103,7 +103,7 @@ st.markdown("""
         transform: scale(1.05);
     }
     .full-poetry {
-        background-color: rgba(255, 255, 255, 0.8);
+        background-color: rgba(255, 255, 255, 0.1);
         padding: 20px;
         border-radius: 10px;
         margin-top: 10px;
@@ -113,11 +113,19 @@ st.markdown("""
     .footer {
         text-align: center;
         padding: 20px;
-        background-color: rgba(255, 255, 255, 0.8);
+        background-color: rgba(255, 255, 255, 0.1);
         border-radius: 10px;
         margin-top: 20px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         animation: fadeIn 2s ease-in-out;
+    }
+    .footer a {
+        color: #81b29a;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+    .footer a:hover {
+        color: #e07a5f;
     }
     .floating-button {
         position: fixed;
@@ -140,6 +148,14 @@ st.markdown("""
     .floating-button:hover {
         background-color: #e07a5f;
         transform: scale(1.1);
+    }
+    .social-icons a {
+        margin: 0 10px;
+        color: #81b29a;
+        transition: color 0.3s ease;
+    }
+    .social-icons a:hover {
+        color: #e07a5f;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -179,6 +195,7 @@ with st.container():
     st.write("Click on the links below to view the contents.")
     st.write("1. [My Blog Posts](https://sites.google.com/view/shiv-raj-singh/home)")
     st.write("2. [My social media profiles](https://www.instagram.com/imuniqueshiv/?hl=en)")
+
 # Sidebar Section
 st.sidebar.title("Settings")
 
@@ -330,13 +347,7 @@ st.markdown(
     """,
     unsafe_allow_html=True,
 )
-# Add Font Awesome for Icons
-st.markdown(
-    """
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    """,
-    unsafe_allow_html=True,
-)
+
 # SEARCH BAR
 st.write("---")
 st.header("Search Poetry")
@@ -348,36 +359,89 @@ if clear_search:
 
 # Filter poetry based on search query
 filtered_poetry = [poem for poem in poetry_data if search_query.lower() in poem["title"].lower() or search_query.lower() in poem["content"].lower()]
-# Display songs titles with "Like" button and comments
-
 filtered_thoughts = [thought for thought in introspection if search_query.lower() in thought["title"].lower() or search_query.lower() in thought["content"].lower()]
-st.write("---")
 
+# Display Introspection Section
+st.write("---")
 st.header("Introspection")
 for thought in filtered_thoughts:
     with st.expander(f"💭 {thought['title']}"):
         st.markdown(f"<div class='poetry-card' style='white-space: pre-line; background-color: #2c3e50; color: #ffffff;'>{thought['content']}</div>", unsafe_allow_html=True)
-        # Like button
-        if st.button(f"❤️ Like {thought['title']}"):
+        # Like button with unique key
+        if st.button(f"❤️ Like {thought['title']}", key=f"like_thought_{thought['title']}"):
             st.write(f"You liked '{thought['title']}'!")
-        # Comments section
-        comment = st.text_input(f"Add a comment for '{thought['title']}'", "")
+        # Comments section with unique key
+        comment = st.text_input(f"Add a comment for '{thought['title']}'", key=f"comment_thought_{thought['title']}")
         if comment:
             st.write(f"Your comment: {comment}")
 
-# Display poetry titles with "Like" button and comments
+# Display Heartwhelming Section
 st.write("---")
-st.header("My Poetry")
+st.header("Heart whelming")
 for poem in filtered_poetry:
-    with st.expander(f"📖 {poem['title']}"):
+    with st.expander(f"❤️ {poem['title']}"):
         st.markdown(f"<div class='poetry-card' style='white-space: pre-line; background-color: #2c3e50; color: #ffffff;'>{poem['content']}</div>", unsafe_allow_html=True)
-        # Like button
-        if st.button(f"❤️ Like {poem['title']}"):
+        # Like button with unique key
+        if st.button(f"❤️ Like {poem['title']}", key=f"like_poem_{poem['title']}"):
             st.write(f"You liked '{poem['title']}'!")
-        # Comments section
-        comment = st.text_input(f"Add a comment for '{poem['title']}'", "")
+        # Comments section with unique key
+        comment = st.text_input(f"Add a comment for '{poem['title']}'", key=f"comment_poem_{poem['title']}")
         if comment:
             st.write(f"Your comment: {comment}")
+
+# Display Heartbreaking Section
+st.write("---")
+st.header("Heartbreaking")
+for poem in heartbreak:
+    with st.expander(f"💔 {poem['title']}"):
+        st.markdown(f"<div class='poetry-card' style='white-space: pre-line; background-color: #2c3e50; color: #ffffff;'>{poem['content']}</div>", unsafe_allow_html=True)
+        # Like button with unique key
+        if st.button(f"❤️ Like {poem['title']}", key=f"like_heartbreak_{poem['title']}"):
+            st.write(f"You liked '{poem['title']}'!")
+        # Comments section with unique key
+        comment = st.text_input(f"Add a comment for '{poem['title']}'", key=f"comment_heartbreak_{poem['title']}")
+        if comment:
+            st.write(f"Your comment: {comment}")
+# Add Quote Section
+st.write("---")
+# st.header("Quote of the Day")
+
+# Custom CSS for Quote Section
+st.markdown("""
+    <style>
+    .quote-section {
+        background-color: rgba(255, 255, 255, 0.1);
+        padding: 20px;
+        border-radius: 10px;
+        margin-top: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        font-family: 'Playfair Display', serif;
+        font-size: 24px;
+        color: #e07a5f;
+        animation: fadeIn 2s ease-in-out;
+    }
+    .quote-section::before {
+        content: open-quote;
+        font-size: 40px;
+        color: #81b29a;
+        vertical-align: top;
+    }
+    .quote-section::after {
+        content: close-quote;
+        font-size: 40px;
+        color: #81b29a;
+        vertical-align: bottom;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
+# Display the Quote
+st.markdown("""
+    <div class="quote-section">
+        I read to escape time, and I write to create it.
+    </div>
+    """, unsafe_allow_html=True)
 # Floating Button for Quick Navigation
 st.markdown("""
     <button id="scrollTopBtn" class="floating-button" onclick="topFunction()">↑</button>
