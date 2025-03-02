@@ -3,6 +3,7 @@ import streamlit as st
 from introspection import introspection  # Import introspection data from the separate file
 from poetry_data import poetry_data  # Import poetry data from the separate file
 from Heartbreaking_poetry import heartbreak
+
 # Set page configuration
 st.set_page_config(page_title="MY library", page_icon=":writing_hand:", layout="wide")
 
@@ -366,47 +367,29 @@ st.write("---")
 st.header("Introspection")
 for thought in filtered_thoughts:
     with st.expander(f"💭 {thought['title']}"):
-        st.markdown(f"<div class='poetry-card' style='white-space: pre-line; background-color: #2c3e50; color: #ffffff;'>{thought['content']}</div>", unsafe_allow_html=True)
-        # Like button with unique key
-        if st.button(f"❤️ Like {thought['title']}", key=f"like_thought_{thought['title']}"):
-            st.write(f"You liked '{thought['title']}'!")
-        # Comments section with unique key
-        comment = st.text_input(f"Add a comment for '{thought['title']}'", key=f"comment_thought_{thought['title']}")
-        if comment:
-            st.write(f"Your comment: {comment}")
+        st.markdown(f"<div class='poetry-card' style='white-space: pre-line; background-color: #2c3e50; color: #ffffff;font-size: 20px; font-weight: bold;'>{thought['content']}</div>", unsafe_allow_html=True)
+        st.write("<span style='color: #e07a5f; font-weight: bold;'>Thanks for reading this.</span>",
+                 unsafe_allow_html=True)
 
 # Display Heartwhelming Section
 st.write("---")
 st.header("Heart whelming")
 for poem in filtered_poetry:
     with st.expander(f"❤️ {poem['title']}"):
-        st.markdown(f"<div class='poetry-card' style='white-space: pre-line; background-color: #2c3e50; color: #ffffff;'>{poem['content']}</div>", unsafe_allow_html=True)
-        # Like button with unique key
-        if st.button(f"❤️ Like {poem['title']}", key=f"like_poem_{poem['title']}"):
-            st.write(f"You liked '{poem['title']}'!")
-        # Comments section with unique key
-        comment = st.text_input(f"Add a comment for '{poem['title']}'", key=f"comment_poem_{poem['title']}")
-        if comment:
-            st.write(f"Your comment: {comment}")
+        st.markdown(f"<div class='poetry-card' style='white-space: pre-line; background-color: #2c3e50; color: #ffffff;font-size: 20px; font-weight: bold;'>{poem['content']}</div>", unsafe_allow_html=True)
+        st.write("<span style='color: #e07a5f; font-weight: bold;'>Thanks for reading this.</span>",
+                 unsafe_allow_html=True)
 
 # Display Heartbreaking Section
 st.write("---")
 st.header("Heartbreaking")
 for poem in heartbreak:
     with st.expander(f"💔 {poem['title']}"):
-        st.markdown(f"<div class='poetry-card' style='white-space: pre-line; background-color: #2c3e50; color: #ffffff;'>{poem['content']}</div>", unsafe_allow_html=True)
-        # Like button with unique key
-        if st.button(f"❤️ Like {poem['title']}", key=f"like_heartbreak_{poem['title']}"):
-            st.write(f"You liked '{poem['title']}'!")
-        # Comments section with unique key
-        comment = st.text_input(f"Add a comment for '{poem['title']}'", key=f"comment_heartbreak_{poem['title']}")
-        if comment:
-            st.write(f"Your comment: {comment}")
+        st.markdown(f"<div class='poetry-card' style='white-space: pre-line; background-color: #2c3e50; color: #ffffff; font-size: 20px; font-weight: bold;'>{poem['content']}</div>", unsafe_allow_html=True)
+        st.write("<span style='color: #e07a5f; font-weight: bold;'>Thanks for reading this.</span>", unsafe_allow_html=True)
+
 # Add Quote Section
 st.write("---")
-# st.header("Quote of the Day")
-
-# Custom CSS for Quote Section
 st.markdown("""
     <style>
     .quote-section {
@@ -442,6 +425,7 @@ st.markdown("""
         I read to escape time, and I write to create it.
     </div>
     """, unsafe_allow_html=True)
+
 # Floating Button for Quick Navigation
 st.markdown("""
     <button id="scrollTopBtn" class="floating-button" onclick="topFunction()">↑</button>
